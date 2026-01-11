@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmpleaYa - Plataforma Corporativa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e63946;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-gray: #a0a0a0;
+            --error: #ff4d4d;
+            --success: #10b981;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            background-color: var(--dark-bg); 
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Navegación */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background: rgba(0,0,0,0.8);
+            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.5rem; }
+        .nav-links a { text-decoration: none; color: var(--text-gray); margin-left: 20px; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+
+        .container { 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: calc(100vh - 160px); padding: 20px; 
+        }
+        
+        /* Tarjetas */
+        .card-main { 
+            background: var(--card-bg); padding: 50px 40px; 
+            border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            width: 100%; max-width: 450px; text-align: center;
+            display: none;
+        }
+        .card-main.activa { display: block; animation: fadeIn 0.4s ease; }
+
+        h2 { font-size: 2rem; margin: 10px 0; font-weight: 800; }
+        p { color: var(--text-gray); margin-bottom: 30px; }
+
+        /* Botones */
+        .btn { 
+            display: block; width: 100%; padding: 18px; margin: 15px 0; 
+            border-radius: 12px; font-size: 1rem; font-weight: 600; 
+            border: none; cursor: pointer; transition: 0.3s;
+        }
+        .btn-opcion { background: #2a2a2a; color: white; border: 1px solid #444; }
+        .btn-pago { background: var(--primary); color: white; margin-top: 25px; }
+        .btn-success { background: var(--success); color: white; margin-top: 20px; }
+
+        /* Inputs */
+        label { display: block; text-align: left; font-size: 0.75rem; font-weight: 700; color: var(--text-gray); margin-bottom: 8px; text-transform: uppercase; }
+        input, select { 
+            width: 100%; padding: 16px; margin-bottom: 5px; 
+            border-radius: 10px; border: 1px solid #444; background: #2a2a2a;
+            color: white; box-sizing: border-box; font-size: 1rem;
+        }
+        .input-error { border-color: var(--error) !important; }
+        .error-text { color: var(--error); font-size: 0.75rem; text-align: left; margin-bottom: 15px; display: none; }
+
+        /* Modales */
+        .modal-info {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: var(--card-bg); padding: 40px; border-radius: 20px;
+            max-width: 500px; width: 90%; position: relative; border: 1px solid #333;
+        }
+        .close-modal { position: absolute; top: 20px; right: 20px; color: white; cursor: pointer; font-size: 1.5rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        footer { text-align: center; padding: 30px; color: var(--text-gray); font-size: 0.7rem; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#" class="logo" onclick="mostrarSeccion('inicio')">EmpleaYa</a>
+    <div class="nav-links">
+        <a href="javascript:void(0)" onclick="abrirInfo('mision')">Misión</a>
+        <a href="javascript:void(0)" onclick="abrirInfo('servicios')">Servicios</a>
+        <a href="javascript:void(0)" onclick="mostrarSeccion('inicio')" style="color: var(--primary); font-weight: 800;">Acceder</a>
+    </div>
+</nav>
+
+<div class="container">
+    
+    <div id="inicio" class="card-main activa">
+        <div style="font-size: 1.5rem; color: var(--text-gray); margin-bottom: 10px;">EC</div>
+        <h2>Bienvenido</h2>
+        <p>Selecciona una opción para continuar.</p>
+        <button class="btn btn-opcion" onclick="mostrarSeccion('form-candidato')">Busco Empleo</button>
+        <button class="btn btn-opcion" onclick="mostrarSeccion('form-negocio')">Publicar Vacante</button>
+    </div>
+
+    <div id="form-candidato" class="card-main">
+        <button onclick="mostrarSeccion('inicio')" style="background:none; border:none; color:var(--text-gray); cursor:pointer; float:left;">← Atrás</button>
+        <h3 style="margin-top:40px;">Registro de Perfil</h3>
+        <label>Nombre Completo</label>
+        <input type="text" id="nombre-c" placeholder="Ej: Carlos Mejía">
+        <div id="err-nombre-c" class="error-text">El nombre es obligatorio</div>
+        
+        <label>Tu Oficio / Especialidad</label>
+        <select id="cargo-c">
+            <option value="">Selecciona...</option>
+            <option>Mesero / Atención</option>
+            <option>Ayudante de Cocina</option>
+            <option>Ventas / Cajero</option>
+        </select>
+        <div id="err-cargo-c" class="error-text">Selecciona una especialidad</div>
+        
+        <button class="btn btn-pago" onclick="validarCandidato()">Continuar al Pago</button>
+    </div>
+
+    <div id="form-negocio" class="card-main">
+        <button onclick="mostrarSeccion('inicio')" style="background:none; border:none; color:var(--text-gray); cursor:pointer; float:left;">← Atrás</button>
+        <h3 style="margin-top:40px;">Datos del Negocio</h3>
+        <label>Nombre del Local</label>
+        <input type="text" id="local-n" placeholder="Nombre de tu establecimiento">
+        <div id="err-local-n" class="error-text">Nombre del local obligatorio</div>
+        
+        <label>Puesto que necesitas</label>
+        <input type="text" id="puesto-n" placeholder="Ej: Cajero polifuncional">
+        <div id="err-puesto-n" class="error-text">Describe el puesto</div>
+
+        <button class="btn btn-pago" onclick="validarNegocio()">Continuar al Pago</button>
+    </div>
+
+    <div id="seccion-pago" class="card-main">
+        <h3>Información de Pago</h3>
+        <p>Realiza la transferencia para activar tu solicitud.</p>
+        <div style="background:#2a2a2a; padding:20px; border-radius:15px; margin:20px 0; border: 1px dashed #444;">
+            <p style="margin:0; font-size:0.8rem;">Banco Pichincha - Ahorros</p>
+            <h2 id="monto-final" style="color:var(--primary); margin:10px 0;">$0.00</h2>
+            <p style="margin:0; color:white;">Cuenta: 2212994343</p>
+        </div>
+        <button class="btn btn-success" onclick="finalizarProceso()">He realizado el pago</button>
+    </div>
+
+    <div id="agradecimiento" class="card-main">
+        <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+        <h2>¡Gracias por elegirnos!</h2>
+        <p>Tu solicitud ha sido recibida. En breve un asesor validará tu pago y activará tu perfil en el mapa de proximidad.</p>
+        <button class="btn btn-opcion" onclick="location.reload()">Volver al Inicio</button>
+    </div>
+
+</div>
+
+<div id="modal-mision" class="modal-info">
+    <div class="modal-content">
+        <span class="close-modal" onclick="cerrarInfo('mision')">&times;</span>
+        <h2 style="color:var(--primary);">Nuestra Misión</h2>
+        <p style="color:white; line-height:1.6;">Conectar de forma directa y transparente a los negocios locales con el talento humano de su zona mediante tecnología de geolocalización.</p>
+    </div>
+</div>
+
+<div id="modal-servicios" class="modal-info">
+    <div class="modal-content">
+        <span class="close-modal" onclick="cerrarInfo('servicios')">&times;</span>
+        <h2 style="color:var(--primary);">Servicios</h2>
+        <p style="color:white; line-height:1.6;">
+            • Visibilidad Inmediata en mapa local.<br>
+            • Filtros de especialidad.<br>
+            • Contacto directo sin intermediarios.
+        </p>
+    </div>
+</div>
+
+<footer>EMPLEAYA CORPORATIVO © 2026 — ECUADOR</footer>
+
+<script>
+    function mostrarSeccion(id) {
+        document.querySelectorAll('.card-main').forEach(c => c.classList.remove('activa'));
+        document.getElementById(id).classList.add('activa');
+        window.scrollTo(0,0);
+    }
+
+    function abrirInfo(id) {
+        document.getElementById('modal-' + id).style.display = 'flex';
+    }
+
+    function cerrarInfo(id) {
+        document.getElementById('modal-' + id).style.display = 'none';
+    }
+
+    function validarCampo(id) {
+        const campo = document.getElementById(id);
+        const error = document.getElementById('err-' + id);
+        if(campo.value.trim() === "") {
+            campo.classList.add('input-error');
+            error.style.display = 'block';
+            return false;
+        } else {
+            campo.classList.remove('input-error');
+            error.style.display = 'none';
+            return true;
+        }
+    }
+
+    function validarCandidato() {
+        if(validarCampo('nombre-c') && validarCampo('cargo-c')) {
+            document.getElementById('monto-final').innerText = "$0.50";
+            mostrarSeccion('seccion-pago');
+        }
+    }
+
+    function validarNegocio() {
+        if(validarCampo('local-n') && validarCampo('puesto-n')) {
+            document.getElementById('monto-final').innerText = "$1.00";
+            mostrarSeccion('seccion-pago');
+        }
+    }
+
+    function finalizarProceso() {
+        mostrarSeccion('agradecimiento');
+    }
+</script>
+
+</body>
+</html>
