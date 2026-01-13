@@ -1,128 +1,89 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EmpleaYa - Conexión GPS</title>
+    <title>EmpleaYa - Ecuador</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root {
-            --primary: #e63946;
-            --dark-bg: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-gray: #a0a0a0;
-            --whatsapp: #25d366;
-        }
-
+        :root { --primary: #e63946; --dark-bg: #121212; --card-bg: #1e1e1e; --text-main: #ffffff; --whatsapp: #25d366; --text-gray: #a0a0a0; }
         body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--dark-bg); color: var(--text-main); }
-
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; background: rgba(0,0,0,0.8);
-            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000;
-        }
+        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(0,0,0,0.8); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000; }
         .logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.5rem; }
-        .nav-links a { text-decoration: none; color: var(--text-gray); margin-left: 20px; font-size: 0.9rem; }
-
         .container { display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 20px; }
-        
-        .card-main { 
-            background: var(--card-bg); padding: 40px; 
-            border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
-            width: 100%; max-width: 450px; text-align: center; display: none;
-        }
+        .card-main { background: var(--card-bg); padding: 40px; border-radius: 24px; width: 100%; max-width: 450px; text-align: center; display: none; }
         .card-main.activa { display: block; animation: fadeIn 0.4s ease; }
-
         #map { height: 350px; width: 100%; border-radius: 15px; margin-top: 20px; border: 2px solid #333; }
-
-        .btn { 
-            display: block; width: 100%; padding: 18px; margin: 15px 0; 
-            border-radius: 12px; font-size: 1rem; font-weight: 600; 
-            border: none; cursor: pointer; transition: 0.3s;
-            text-decoration: none;
-        }
-        .btn-opcion { background: #2a2a2a; color: white; border: 1px solid #444; }
+        .btn { display: block; width: 100%; padding: 18px; margin: 15px 0; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: 0.3s; }
+        .btn-opcion { background: #2a2a2a; color: white; }
         .btn-pago { background: var(--primary); color: white; }
         .btn-ws { background: var(--whatsapp); color: white; }
-
-        .info-pago { background: #2a2a2a; padding: 20px; border-radius: 15px; margin: 20px 0; border: 1px dashed #444; text-align: left; }
-        .monto { color: var(--primary); font-size: 1.8rem; font-weight: 800; display: block; margin-bottom: 5px; }
-
-        input, select { 
-            width: 100%; padding: 16px; margin-bottom: 10px; 
-            border-radius: 10px; border: 1px solid #444; background: #333; color: white;
-            font-size: 1rem; box-sizing: border-box;
-        }
-
+        .btn:hover { opacity: 0.9; transform: scale(1.02); }
+        input, select { width: 100%; padding: 16px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #444; background: #333; color: white; box-sizing: border-box; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<nav>
-    <a href="#" class="logo">EmpleaYa</a>
-    <div class="nav-links">
-        <a href="javascript:void(0)" onclick="location.reload()">Atrás</a>
-        <a href="javascript:void(0)" style="color: var(--primary);">Ecuador</a>
-    </div>
-</nav>
+<nav><a href="#" class="logo">EmpleaYa</a></nav>
 
 <div class="container">
     <div id="inicio" class="card-main activa">
         <h2>Bienvenido</h2>
-        <p>Selecciona tu perfil para continuar.</p>
+        <p>Selecciona tu perfil para continuar</p>
         <button class="btn btn-opcion" onclick="setTipo('candidato')">Busco Empleo</button>
         <button class="btn btn-opcion" onclick="setTipo('negocio')">Publicar Vacante</button>
     </div>
 
     <div id="formulario" class="card-main">
-        <h3 id="form-titulo">Registro</h3>
-        <input type="text" id="nombre-input" placeholder="Nombre completo / Local">
+        <h3>Registro de Usuario</h3>
+        <input type="text" id="nombre-input" placeholder="Nombre completo">
         <select id="categoria-input">
-            <option value="">Categoría...</option>
-            <option>Restaurantes</option>
-            <option>Ventas / Local</option>
-            <option>Limpieza / Doméstico</option>
-            <option>Seguridad</option>
+            <option value="">Selecciona Categoría...</option>
+            <option value="Ventas">Ventas / Local</option>
+            <option value="Restaurante">Restaurante / Cocina</option>
+            <option value="Limpieza">Limpieza / Doméstico</option>
+            <option value="Otros">Otros</option>
         </select>
-        <button class="btn btn-pago" onclick="validarYIrAPago()">Siguiente</button>
+        <button class="btn btn-pago" id="btn-enviar" onclick="enviarDatos()">Siguiente</button>
     </div>
 
     <div id="seccion-pago" class="card-main">
-        <h3>Activar Localización</h3>
-        <p>Envía el comprobante para habilitar el GPS.</p>
-        <div class="info-pago">
-            <span class="monto" id="monto-texto">$0.00</span>
-            <p style="margin: 5px 0; font-weight: 800;">Banco Pichincha (Ahorros)</p>
-            <p style="margin: 0; color: var(--primary); font-size: 1.1rem;">Cuenta: 2212994343</p>
+        <h3>Pago y Activación</h3>
+        <p>Envía tu comprobante para habilitar el GPS</p>
+        <div style="background: #2a2a2a; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left;">
+            <p style="margin: 0; font-weight: 800; color: var(--primary);">Banco Pichincha (Ahorros)</p>
+            <p style="margin: 5px 0;">Cuenta: 2212994343</p>
+            <p id="monto-final" style="margin: 0; font-weight: 800;"></p>
         </div>
-        
-        <a id="whatsapp-link" href="#" target="_blank" class="btn btn-ws">
-            📱 Enviar Comprobante
-        </a>
-
-        <button class="btn btn-opcion" onclick="irAMapa()" style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">
-            Ver Mapa de Prueba
-        </button>
+        <a id="whatsapp-link" href="#" target="_blank" class="btn btn-ws">📱 Enviar Comprobante</a>
+        <button class="btn btn-opcion" onclick="mostrar('seccion-mapa'); iniciarMapa();" style="font-size: 0.8rem;">Ver Mapa de Prueba</button>
     </div>
 
     <div id="seccion-mapa" class="card-main" style="max-width: 600px;">
-        <h3>Conexiones en tu zona</h3>
+        <h3>Mapa de Conexiones</h3>
         <div id="map"></div>
-        <p style="font-size: 0.8rem; margin-top: 15px; color: var(--text-gray);">
-            Resultados basados en tu ubicación GPS actual.
-        </p>
-        <button class="btn btn-opcion" onclick="location.reload()">Finalizar Sesión</button>
+        <p style="font-size: 0.8rem; margin-top: 15px; color: var(--text-gray);">Detectando oportunidades cerca de tu GPS...</p>
+        <button class="btn btn-opcion" onclick="location.reload()">Finalizar</button>
     </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     let tipoActual = "";
-    // NÚMERO ACTUALIZADO: 0997032278
-    const miTelefono = "593997032278"; 
+    const miTelefono = "593997032278";
+    
+    // CORRECCIÓN: La URL debe ir entre comillas
+    const formURL = "https://formspree.io/f/xwvvkjkn";
 
     function mostrar(id) {
         document.querySelectorAll('.card-main').forEach(c => c.classList.remove('activa'));
@@ -130,33 +91,49 @@
         window.scrollTo(0,0);
     }
 
-    function setTipo(tipo) {
-        tipoActual = tipo;
-        document.getElementById('form-titulo').innerText = tipo === 'candidato' ? 'Perfil Trabajador' : 'Perfil Empleador';
-        mostrar('formulario');
+    function setTipo(tipo) { 
+        tipoActual = tipo; 
+        mostrar('formulario'); 
     }
 
-    function validarYIrAPago() {
+    async function enviarDatos() {
         const nom = document.getElementById('nombre-input').value;
         const cat = document.getElementById('categoria-input').value;
+        const btn = document.getElementById('btn-enviar');
 
-        if(nom.trim() !== "" && cat !== "") {
-            const monto = tipoActual === 'candidato' ? "$0.50" : "$1.00";
-            document.getElementById('monto-texto').innerText = monto;
-            
-            const mensaje = `Hola, mi nombre es ${nom}. Adjunto mi comprobante de pago de ${monto} para activar mi perfil de ${tipoActual === 'candidato' ? 'Trabajador' : 'Empleador'} en EmpleaYa.`;
-            const encodedMsg = encodeURIComponent(mensaje);
-            document.getElementById('whatsapp-link').href = `https://wa.me/${miTelefono}?text=${encodedMsg}`;
-            
-            mostrar('seccion-pago');
-        } else {
-            alert("Por favor completa los datos.");
+        if(nom.trim() === "" || cat === "") {
+            alert("Por favor completa todos los campos");
+            return;
         }
-    }
 
-    function irAMapa() {
-        mostrar('seccion-mapa');
-        setTimeout(iniciarMapa, 300);
+        // Bloqueamos el botón para evitar múltiples envíos
+        btn.disabled = true;
+        btn.innerText = "Enviando...";
+
+        // Configurar Pago y WhatsApp antes del fetch por si falla la red
+        const monto = tipoActual === 'candidato' ? "$0.50" : "$1.00";
+        document.getElementById('monto-final').innerText = "Monto a pagar: " + monto;
+        const msg = encodeURIComponent(`Hola, soy ${nom}. Acabo de registrarme como ${tipoActual}. Envío mi comprobante de ${monto}.`);
+        document.getElementById('whatsapp-link').href = `https://wa.me/${miTelefono}?text=${msg}`;
+
+        try {
+            // Guardar en la base de datos (Formspree)
+            await fetch(formURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ 
+                    nombre: nom, 
+                    categoria: cat, 
+                    perfil: tipoActual,
+                    fecha: new Date().toLocaleString()
+                })
+            });
+        } catch (error) {
+            console.log("Error al enviar a Formspree, continuando flujo...");
+        }
+
+        // Pasamos a la siguiente pantalla sin importar si Formspree respondió (para no trabar al usuario)
+        mostrar('seccion-pago');
     }
 
     function iniciarMapa() {
@@ -164,23 +141,24 @@
             navigator.geolocation.getCurrentPosition(pos => {
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
+                
+                // Limpiar mapa si ya existía
+                const container = L.DomUtil.get('map');
+                if (container != null) { container._leaflet_id = null; }
+
                 const map = L.map('map').setView([lat, lon], 15);
-
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-                L.marker([lat, lon]).addTo(map).bindPopup("<b>Tu ubicación</b>").openPopup();
+                L.marker([lat, lon]).addTo(map).bindPopup("Tu ubicación").openPopup();
 
-                for(let i=0; i<4; i++) {
-                    const tLat = lat + (Math.random() - 0.5) * 0.015;
-                    const tLon = lon + (Math.random() - 0.5) * 0.015;
-                    const msg = tipoActual === 'candidato' ? 'Vacante Cercana' : 'Candidato Cercano';
-                    L.circleMarker([tLat, tLon], {color: '#e63946', radius: 8, fillOpacity: 0.8}).addTo(map).bindPopup(`<b>${msg}</b><br><button onclick="alert('Conectando...')">Contactar ahora</button>`);
+                // Simulación de puntos cercanos
+                for(let i=0; i<3; i++) {
+                    const tLat = lat + (Math.random() - 0.5) * 0.01;
+                    const tLon = lon + (Math.random() - 0.5) * 0.01;
+                    L.circleMarker([tLat, tLon], {color: '#e63946', radius: 8}).addTo(map);
                 }
-            }, () => {
-                alert("Activa el GPS para ver los resultados.");
-            });
+            }, () => alert("Por favor activa el GPS para ver el mapa"));
         }
     }
 </script>
 </body>
 </html>
-
