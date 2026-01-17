@@ -1,7 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
+
+
 <html lang="es">
+
 <head>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -12,31 +17,151 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EmpleaYa - Ecuador</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <style>
+
         :root { --primary: #e63946; --dark-bg: #121212; --card-bg: #1e1e1e; --text-main: #ffffff; --whatsapp: #25d366; --text-gray: #a0a0a0; }
+
         body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--dark-bg); color: var(--text-main); }
+
         nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(0,0,0,0.8); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000; }
+
         .logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.5rem; }
+
         .container { display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 20px; }
+
         .card-main { background: var(--card-bg); padding: 40px; border-radius: 24px; width: 100%; max-width: 450px; text-align: center; display: none; }
+
         .card-main.activa { display: block; animation: fadeIn 0.4s ease; }
+
         #map { height: 350px; width: 100%; border-radius: 15px; margin-top: 20px; border: 2px solid #333; }
+
         .btn { display: block; width: 100%; padding: 18px; margin: 15px 0; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: 0.3s; }
+
         .btn-opcion { background: #2a2a2a; color: white; }
+
         .btn-pago { background: var(--primary); color: white; }
+
         .btn-ws { background: var(--whatsapp); color: white; }
+
         .btn:hover { opacity: 0.9; transform: scale(1.02); }
+
         input, select { width: 100%; padding: 16px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #444; background: #333; color: white; box-sizing: border-box; }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .pulse-icon {
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(230, 57, 70, 0.4);
+            animation: pulse-animation 1.5s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(230, 57, 70, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+        }
+        
+        .badge-flash {
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .filter-btn {
+            background: #333; color: white; border: none; padding: 8px 15px; 
+            border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 0.8rem;
+        }
+        .filter-btn.active { background: var(--primary); }
+        
+        .popup-card { text-align: center; color: #333; }
+        .popup-card h4 { margin: 5px 0; color: #121212; }
+        .popup-card p { margin: 2px 0; font-size: 0.8rem; color: #666; }
+        .btn-contactar { 
+            background: var(--whatsapp); color: white; text-decoration: none;
+            padding: 5px 10px; border-radius: 5px; display: inline-block; margin-top: 8px; font-weight: bold;
+        }
+
+        .stars-container { color: #ffca28; font-size: 1.2rem; margin: 5px 0; }
+        .review-count { color: var(--text-gray); font-size: 0.75rem; margin-left: 5px; }
+        
+        .modal-rating {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--card-bg); padding: 25px; border-radius: 20px;
+            z-index: 2000; display: none; width: 90%; max-width: 350px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 1px solid #444;
+        }
+        .star-input { font-size: 2rem; cursor: pointer; color: #444; transition: 0.2s; }
+        .star-input.active { color: #ffca28; }
+
+        .pulse-demand {
+            background: #007bff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(0, 123, 255, 0.4);
+            animation: pulse-blue 1.5s infinite;
+        }
+
+        @keyframes pulse-blue {
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+
+        .btn-demanda {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .gallery-item {
+            width: 100%;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #333;
+        }
+
     </style>
+
 </head>
+
 <body>
 
 <nav><a href="#" class="logo">EmpleaYa</a></nav>
 
+<div id="filtros-mapa" style="display: none; padding: 10px 5%; background: #1a1a1a; border-bottom: 1px solid #333;">
+    <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;">
+        <button class="filter-btn active" onclick="filtrarMapa('Todos')">Todo</button>
+        <button class="filter-btn" onclick="filtrarMapa('Ventas')">🛍️ Ventas</button>
+        <button class="filter-btn" onclick="filtrarMapa('Restaurante')">🍴 Comida</button>
+        <button class="filter-btn" onclick="filtrarMapa('Limpieza')">🧹 Limpieza</button>
+        <button class="filter-btn" onclick="filtrarMapa('Otros')">🛠️ Otros</button>
+    </div>
+</div>
+
 <div class="container">
+
     <div id="inicio" class="card-main activa">
         <h2>Bienvenido</h2>
         <p>Selecciona tu perfil para continuar</p>
@@ -71,19 +196,48 @@
 
     <div id="seccion-mapa" class="card-main" style="max-width: 600px;">
         <h3>Mapa de Conexiones</h3>
+
+        <div id="area-cliente" style="margin-top: 15px; background: #1e1e1e; padding: 15px; border-radius: 15px; border: 1px solid #007bff;">
+            <p style="margin:0; font-size: 0.8rem; color: #aaa;">¿No encuentras a nadie? Lanza un faro:</p>
+            <button class="btn-demanda" onclick="lanzarFaro()">🔦 Lanzar Faro de Ayuda (Gratis)</button>
+        </div>
+
+        <div id="control-visibilidad" style="margin-bottom: 15px; display: none; background: #252525; padding: 10px; border-radius: 12px; border: 1px solid var(--primary);">
+            <p style="margin: 0 0 10px 0; font-size: 0.9rem;">🔥 <strong>¡Tu negocio está oculto!</strong></p>
+            <button class="btn btn-pago" onclick="activarRadar()" style="margin:0; padding: 10px;">Activar Radar de Vistas (Modo Flash)</button>
+        </div>
+
         <div id="map"></div>
+
         <p style="font-size: 0.8rem; margin-top: 15px; color: var(--text-gray);">Detectando oportunidades cerca de tu GPS...</p>
+
         <button class="btn btn-opcion" onclick="location.reload()">Finalizar</button>
     </div>
+
+</div>
+
+<div id="modal-calificar" class="modal-rating">
+    <h4 style="margin-top:0">Calificar Servicio</h4>
+    <p style="font-size: 0.9rem;">¿Cómo fue tu experiencia con este trabajador?</p>
+    <div style="margin: 15px 0;">
+        <span class="star-input" onclick="setRating(1)">★</span>
+        <span class="star-input" onclick="setRating(2)">★</span>
+        <span class="star-input" onclick="setRating(3)">★</span>
+        <span class="star-input" onclick="setRating(4)">★</span>
+        <span class="star-input" onclick="setRating(5)">★</span>
+    </div>
+    <button class="btn btn-pago" onclick="guardarCalificacion()">Enviar Calificación</button>
+    <button class="btn" style="background:transparent; color:gray;" onclick="cerrarModal()">Cancelar</button>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
+
     let tipoActual = "";
     const miTelefono = "593997032278";
-    
-    // CORRECCIÓN: La URL debe ir entre comillas
     const formURL = "https://formspree.io/f/xwvvkjkn";
+    let marcadoresGlobales = []; // Para guardar los puntos y poder filtrarlos
 
     function mostrar(id) {
         document.querySelectorAll('.card-main').forEach(c => c.classList.remove('activa'));
@@ -106,18 +260,16 @@
             return;
         }
 
-        // Bloqueamos el botón para evitar múltiples envíos
         btn.disabled = true;
         btn.innerText = "Enviando...";
 
-        // Configurar Pago y WhatsApp antes del fetch por si falla la red
         const monto = tipoActual === 'candidato' ? "$0.50" : "$1.00";
         document.getElementById('monto-final').innerText = "Monto a pagar: " + monto;
-        const msg = encodeURIComponent(`Hola, soy ${nom}. Acabo de registrarme como ${tipoActual}. Envío mi comprobante de ${monto}.`);
-        document.getElementById('whatsapp-link').href = `https://wa.me/${miTelefono}?text=${msg}`;
+
+        const msg = encodeURIComponent(Hola, soy ${nom}. Acabo de registrarme como ${tipoActual}. Envío mi comprobante de ${monto}.);
+        document.getElementById('whatsapp-link').href = https://wa.me/${miTelefono}?text=${msg};
 
         try {
-            // Guardar en la base de datos (Formspree)
             await fetch(formURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -132,39 +284,163 @@
             console.log("Error al enviar a Formspree, continuando flujo...");
         }
 
-        // Pasamos a la siguiente pantalla sin importar si Formspree respondió (para no trabar al usuario)
         mostrar('seccion-pago');
     }
 
-    
-    function iniciarMapa() {
+    function activarRadar() {
+        alert("¡MODO FLASH ACTIVADO! Tu negocio ahora brilla en el mapa de todos los usuarios cercanos por las próximas 2 horas.");
+        document.getElementById('control-visibilidad').innerHTML = "<p style='color: #25d366; font-weight: 800;'>✅ RADAR ACTIVO: Estás recibiendo x5 más vistas ahora.</p>";
+        iniciarMapa(true);
+    }
+
+    function filtrarMapa(categoria) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        alert("Filtrando mapa por: " + categoria + ". En la versión real, aquí se ocultan los otros marcadores.");
+    }
+
+    function iniciarMapa(conFlash = false) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(pos => {
+
+                document.getElementById('filtros-mapa').style.display = 'block';
+
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
                 
-                // Limpiar mapa si ya existía
                 const container = L.DomUtil.get('map');
                 if (container != null) { container._leaflet_id = null; }
 
                 const map = L.map('map').setView([lat, lon], 15);
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-                L.marker([lat, lon]).addTo(map).bindPopup("Tu ubicación").openPopup();
 
-                // Simulación de puntos cercanos
+                const iconClass = conFlash ? 'pulse-icon' : '';
+                const myIcon = L.divIcon({
+                    className: iconClass,
+                    html: <div style="width:12px; height:12px; background:${conFlash ? 'red' : '#007bff'}; border-radius:50%; border:2px solid white;"></div>,
+                    iconSize: [12, 12]
+                });
+
+                L.marker([lat, lon], {icon: myIcon}).addTo(map)
+                    .bindPopup(conFlash ? "<b>ESTÁS EN MODO FLASH</b><br>Visible para todos." : "Tu ubicación")
+                    .openPopup();
+
+                if(tipoActual === 'negocio') {
+                    document.getElementById('control-visibilidad').style.display = 'block';
+                }
+
+                const nombresSimulados = ["Juan Pérez", "María López", "Carlos Ruiz"];
+                const catsSimuladas = ["Ventas", "Restaurante", "Limpieza"];
+
                 for(let i=0; i<3; i++) {
                     const tLat = lat + (Math.random() - 0.5) * 0.01;
                     const tLon = lon + (Math.random() - 0.5) * 0.01;
-                    L.circleMarker([tLat, tLon], {color: '#e63946', radius: 8}).addTo(map);
+                    
+                    const cardHtml = 
+                        <div class="popup-card">
+                            <div class="stars-container">★★★★★ <span class="review-count">(12 reseñas)</span></div>
+                            <h4>${nombresSimulados[i]}</h4>
+                            <p>${catsSimuladas[i]}</p>
+                            <a href="https://wa.me/${miTelefono}" target="_blank" class="btn-contactar">WhatsApp</a>
+                            <button onclick="abrirCalificador()" style="background:none; border:none; color:var(--primary); font-size:0.7rem; cursor:pointer; text-decoration:underline;">Calificar servicio</button>
+                        </div>
+                    ;
+
+                    L.circleMarker([tLat, tLon], {color: '#e63946', radius: 10})
+                     .addTo(map)
+                     .bindPopup(cardHtml);
                 }
-            }, () => alert("Por favor activa el GPS para ver el mapa"));
+            }, () => alert("Activa el GPS"));
         }
     }
+
+    let ratingSeleccionado = 0;
+
+    function abrirCalificador(nombre) {
+        document.getElementById('modal-calificar').style.display = 'block';
+        ratingSeleccionado = 0;
+        resetStars();
+    }
+
+    function setRating(num) {
+        ratingSeleccionado = num;
+        resetStars();
+        const stars = document.querySelectorAll('.star-input');
+        for(let i=0; i<num; i++) stars[i].classList.add('active');
+    }
+
+    function resetStars() {
+        document.querySelectorAll('.star-input').forEach(s => s.classList.remove('active'));
+    }
+
+    function cerrarModal() {
+        document.getElementById('modal-calificar').style.display = 'none';
+    }
+
+    function guardarCalificacion() {
+        if(ratingSeleccionado === 0) return alert("Selecciona una estrella");
+        alert("¡Gracias! Tu calificación de " + ratingSeleccionado + " estrellas ha sido enviada.");
+        cerrarModal();
+    }
+
+    function lanzarFaro() {
+        const categoriaBuscada = prompt("¿Qué servicio necesitas con urgencia? (Ej: Plomero, Cerrajero, Entrega)");
+        
+        if (categoriaBuscada) {
+            alert("¡Faro lanzado! Tu ubicación será visible para los trabajadores de '" + categoriaBuscada + "' durante 30 minutos.");
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    
+                    const faroIcon = L.divIcon({
+                        className: 'pulse-demand',
+                        html: <div style="width:15px; height:15px; background:#007bff; border-radius:50%; border:2px solid white;"></div>,
+                        iconSize: [15, 15]
+                    });
+
+                    L.marker([lat, lon], {icon: faroIcon}).addTo(map)
+                        .bindPopup(<b>¡OPORTUNIDAD!</b><br>Buscan: ${categoriaBuscada}<br><button class='btn-contactar'>Ir ahora</button>)
+                        .openPopup();
+                });
+            }
+        }
+    }
+
+    function calcularDistancia(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radio de la Tierra en km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return (R * c).toFixed(2); // Retorna distancia en km con 2 decimales
+    }
+
+    const portfolioHtml = `
+        <div class="gallery-container">
+            <img src="URL_TRABAJO_1" class="gallery-item" onclick="verImagen(this.src)">
+            <img src="URL_TRABAJO_2" class="gallery-item" onclick="verImagen(this.src)">
+            <img src="URL_TRABAJO_3" class="gallery-item" onclick="verImagen(this.src)">
+        </div>
+    `;
+
+    function guardarSesionLocal(datos) {
+        localStorage.setItem('usuario_empleaya', JSON.stringify(datos));
+    }
+
+    window.onload = function() {
+        const sesion = localStorage.getItem('usuario_empleaya');
+        if (sesion) {
+            const user = JSON.parse(sesion);
+            console.log("Bienvenido de nuevo, " + user.nombre);
+        }
+    }
+
 </script>
+
 </body>
+
 </html>
-
-
-
-
-
